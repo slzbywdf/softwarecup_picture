@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url" value="jdbc:mysql://localhost:3306/pic_reg_new?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true&amp;useSSL=true"/>
+		<property name="username" value="root" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>cn/picture/domain/hw_Administrator.hbm.xml</value>
+				<value>cn/picture/domain/hw_Day_push.hbm.xml</value>
+				<value>cn/picture/domain/hw_Have.hbm.xml</value>
+				<value>cn/picture/domain/hw_Interest.hbm.xml</value>
+				<value>cn/picture/domain/hw_Picture.hbm.xml</value>
+				<value>cn/picture/domain/hw_Semantics.hbm.xml</value>
+				<value>cn/picture/domain/hw_Tag_push.hbm.xml</value>
+				<value>cn/picture/domain/hw_Tag.hbm.xml</value>
+				<value>cn/picture/domain/hw_Volunteer.hbm.xml</value>
+			</list>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>cn.picture.domain.hw_Administrator</value>
+				<value>cn.picture.domain.hw_Day_push</value>
+				<value>cn.picture.domain.hw_Have</value>
+				<value>cn.picture.domain.hw_Interest</value>
+				<value>cn.picture.domain.hw_Picture</value>
+				<value>cn.picture.domain.hw_Semantics</value>
+				<value>cn.picture.domain.hw_Tag_push</value>
+				<value>cn.picture.domain.hw_Tag</value>
+				<value>cn.picture.domain.hw_Volunteer</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.autoReconnect">true</prop>
+				<!--  <prop key="hibernate.show_sql">true</prop>-->
+				<prop key="hibernate.current_session_context_class">
+				   org.springframework.orm.hibernate3.SpringSessionContext</prop>
+				    <prop key="hibernate.transaction.factory_class">
+				  org.hibernate.transaction.JDBCTransactionFactory</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	
+	<tx:advice id="tx" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" read-only="false"/>
+			<tx:method name="update*" propagation="REQUIRED" read-only="false"/>
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false"/>
+			<!-- 
+				* 代表了除了上述的三种情况的以外的情况
+			 -->
+			<tx:method name="*" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+		
+	<aop:config>
+		<aop:pointcut expression="execution(* cn.picture.dao.impl.*.*(..))" id="perform"/>
+		<aop:advisor advice-ref="tx" pointcut-ref="perform"/>
+	</aop:config>
+	
+	<bean id="AdministratorDao" class="cn.picture.dao.impl.AdministratorDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="Day_pushDao" class="cn.picture.dao.impl.Day_pushDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="HaveDao" class="cn.picture.dao.impl.HaveDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="InterestDao" class="cn.picture.dao.impl.InterestDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="PictureDao" class="cn.picture.dao.impl.PictureDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="SemanticsDao" class="cn.picture.dao.impl.SemanticsDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="Tag_pushDao" class="cn.picture.dao.impl.Tag_pushDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="TagDao" class="cn.picture.dao.impl.TagDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="VolunteerDao" class="cn.picture.dao.impl.VolunteerDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	
+
+	<bean id="tranManager" class="cn.picture.service.impl.tranManagerImpl">
+		<property name="administratordao">
+			<ref bean="AdministratorDao"/>
+		</property>
+		<property name="day_pushdao">
+			<ref bean="Day_pushDao"/>
+		</property>
+		<property name="havedao">
+			<ref bean="HaveDao"/>
+		</property>
+		<property name="interestdao">
+			<ref bean="InterestDao"/>
+		</property>
+		<property name="picturedao">
+			<ref bean="PictureDao"/>
+		</property>
+		<property name="semanticsdao">
+			<ref bean="SemanticsDao"/>
+		</property>
+		<property name="tag_pushdao">
+			<ref bean="Tag_pushDao"/>
+		</property>
+		<property name="tagdao">
+			<ref bean="TagDao"/>
+		</property>
+		<property name="volunteerdao">
+			<ref bean="VolunteerDao"/>
+		</property>
+		
+	</bean>
+	
+	<!-- 定时器设计 -->
+	<!-- 要调用的工作类 -->
+	<bean id="pic_push" class="cn.picture.schedule.pic_push">
+		<property name="day_pushdao">
+			<ref bean="Day_pushDao"/>
+		</property>
+		<property name="havedao">
+			<ref bean="HaveDao"/>
+		</property>
+		<property name="picturedao">
+			<ref bean="PictureDao"/>
+		</property>
+		<property name="semanticsdao">
+			<ref bean="SemanticsDao"/>
+		</property>
+		<property name="tagdao">
+			<ref bean="TagDao"/>
+		</property>
+		<property name="volunteerdao">
+			<ref bean="VolunteerDao"/>
+		</property>
+	</bean>
+	<bean id="tag_push" class="cn.picture.schedule.tag_push">
+
+		<property name="picturedao">
+			<ref bean="PictureDao"/>
+		</property>
+		<property name="semanticsdao">
+			<ref bean="SemanticsDao"/>
+		</property>
+		<property name="tag_pushdao">
+			<ref bean="Tag_pushDao"/>
+		</property>
+		<property name="tagdao">
+			<ref bean="TagDao"/>
+		</property>
+	</bean>
+	<bean id="tag_done" class="cn.picture.schedule.tag_done">
+		<property name="day_pushdao">
+			<ref bean="Day_pushDao"/>
+		</property>
+		<property name="havedao">
+			<ref bean="HaveDao"/>
+		</property>
+		<property name="picturedao">
+			<ref bean="PictureDao"/>
+		</property>
+		<property name="semanticsdao">
+			<ref bean="SemanticsDao"/>
+		</property>
+		<property name="tagdao">
+			<ref bean="TagDao"/>
+		</property>
+		<property name="volunteerdao">
+			<ref bean="VolunteerDao"/>
+		</property>
+	</bean>
+	
+	<!-- 定义调用对象和调用对象的方法 -->
+	<bean id="jobtask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	<!--调用的类  -->
+	<property name="targetObject">
+		<ref bean="pic_push"/>
+	</property>
+	<!-- 调用类中的方法 -->
+	<property name="targetMethod">
+		<value>work</value>
+	</property>
+	<property name="concurrent" value="false"/>
+	</bean>
+	<!-- 定义调用对象和调用对象的方法 -->
+	<bean id="jobtask1" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!--调用的类  -->
+		<property name="targetObject">
+			<ref bean="tag_push"/>
+		</property>
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod">
+			<value>work</value>
+		</property>
+		<property name="concurrent" value="false"/>
+	</bean>
+	<!-- 定义调用对象和调用对象的方法 -->
+	<bean id="jobtask2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!--调用的类  -->
+		<property name="targetObject">
+			<ref bean="tag_done"/>
+		</property>
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod">
+			<value>work</value>
+		</property>
+		<property name="concurrent" value="false"/>
+	</bean>
+	
+	
+   <!-- 定义触发时间 -->
+   <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+   	<property name="jobDetail">
+   		<ref bean="jobtask"/>
+   	</property>
+   	<!-- cron表达式 -->
+   	<property name="cronExpression">
+   		<value> 0 30 0 1/1 * ? *</value>
+   		<!--  0 30 0 1/1 * ? *--><!-- 0/10 * * * * ? -->
+   	</property>
+   </bean>
+   <!-- 定义触发时间 -->
+   <bean id="doTime1" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	   	<property name="jobDetail">
+	   		<ref bean="jobtask1"/>
+	   	</property>
+	   	<!-- cron表达式 -->
+	   	<property name="cronExpression">
+	   		<value> 0 0 1 1/1 * ? *</value>
+	   		<!--  0 0 1 1/1 * ? *-->
+	   	</property>
+   </bean>
+   <!-- 定义触发时间 -->
+   <bean id="doTime2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	   	<property name="jobDetail">
+	   		<ref bean="jobtask2"/>
+	   	</property>
+	   	<!-- cron表达式 -->
+	   	<property name="cronExpression">
+	   		<value>0 0 0 1/1 * ? *</value>
+	   		<!--  0 0 0 1/1 * ? *-->
+	   	</property>
+   </bean>
+   
+   <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+   	<property name="triggers">
+   		<list>
+   		<ref bean="doTime"/>
+   		<ref bean="doTime1"/>
+   		<ref bean="doTime2"/>
+   		</list>
+   	</property>
+   </bean>
+</beans>

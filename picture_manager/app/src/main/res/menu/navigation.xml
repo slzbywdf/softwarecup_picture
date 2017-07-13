@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/all_picture"
+        android:icon="@drawable/ic_dashboard_black_48dp"
+        android:title="所有图片" />
+
+    <item
+        android:id="@+id/system_push"
+        android:icon="@drawable/ic_system_update_alt_black_48dp"
+        android:title="今日推送" />
+
+    <item
+        android:id="@+id/history_picture"
+        android:icon="@drawable/ic_access_time_black_48dp"
+        android:title="历史标签" />
+
+    <!--<item
+        android:id="@+id/user_center"
+        android:icon="@drawable/ic_account_circle_black_48dp"
+        android:title="用户中心" />-->
+
+</menu>

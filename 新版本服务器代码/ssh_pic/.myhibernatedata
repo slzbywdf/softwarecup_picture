@@ -1,0 +1,17 @@
+#MyEclipse Hibernate Properties
+#Wed Mar 22 18:55:09 CST 2017
+genVersionTag=false
+sessionFactoryName=cn.picture.dao.HibernateSessionFactory
+genAnnotations=false
+configFile=/ssh_pic/src/applicationContext.xml
+reStrategyClass=
+sessionFactoryId=sessionFactory
+profile=
+detectM2M=false
+genBasicCompId=false
+keyGenerator=
+createConfigFile=true
+basePersistenceClass=
+detectO2O=false
+useJavaTypes=true
+reSettingsFile=

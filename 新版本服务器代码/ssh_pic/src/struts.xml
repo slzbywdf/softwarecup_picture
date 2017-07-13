@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+    <constant name="struts.devMode" value="true"/>
+ 	<constant name="struts.objectFactory" value="spring" />
+ 	<constant name="struts.i18n.encoding" value="UTF-8" />
+ 	<constant name="struts.configuration.xml.reload" value="true"/>
+ 	
+ 	<package name="Lee" namespace="/" extends="struts-default" >
+ 	
+ 	   <action name="personAction_*" method="{1}" class="cn.picture.action.personAction">
+			<result name="input">/WEB-INF/content/login.jsp</result> 
+			<result name="success">/WEB-INF/content/main.jsp</result>
+			<result name="failure">/WEB-INF/content/login.jsp</result>
+		</action>
+	</package>
+
+</struts>    

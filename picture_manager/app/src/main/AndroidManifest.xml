@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.picture.picture_manager">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 在SDCard中创建于删除文件的权限 -->  
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>  
+    <!-- 往SDCard中写入数据的权限 -->  
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>  
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/icon_48dp"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Activities.Login"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.Main"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".Activities.Register"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity
+            android:name=".Activities.UserInfoChange"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".Activities.ChangePWD"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity
+            android:name=".Activities.LabelPicture"
+            android:launchMode="singleTask"
+            android:theme="@style/PicActivityTheme"></activity>
+        <activity
+            android:name=".Activities.SelectInterests"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".Activities.SelectUserIcon"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".Activities.picupActivity"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".Activities.AlbumActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Activities.GalleryActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Activities.SingleUserInfoChange"
+            android:launchMode="singleTask"></activity>
+        <provider
+            android:authorities="com.picture.picture_manager.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+    </application>
+
+
+</manifest>

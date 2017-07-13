@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+		用来描述一个持久化类
+		name  类的全名
+	 	table 可以不写  默认值和类名一样 
+	 	catalog  数据库的名称  一般不写
+	 -->
+ <class name="cn.picture.domain.hw_Volunteer" table="hw_Volunteer">
+  <!-- 
+			标示属性  和数据库中的主键对应
+			name  属性的名称
+			column 列的名称
+		 -->	
+   <id column="V_id" length="11" name="V_id" type="int">
+   <!-- 
+				主键的产生器
+				  就该告诉hibernate容器用什么样的方式产生主键
+			 -->
+   <generator class="increment"/>
+  </id>
+  <!-- 
+			描述一般属性
+		 -->
+  <property column="V_telephone" generated="never" lazy="false"
+   length="50" name="V_telephone" type="java.lang.String"/>
+   <property column="V_password" generated="never" lazy="false"
+   length="255" name="V_password" type="java.lang.String"/>
+   <property column="V_nick" generated="never" lazy="false"
+   length="255" name="V_nick" type="java.lang.String"/>
+   <property column="V_emial" generated="never" lazy="false"
+   length="255" name="V_emial" type="java.lang.String"/>
+   <property column="V_icon" generated="never" lazy="false"
+   length="11" name="V_icon" type="int"/>
+   <property column="V_credits" generated="never" lazy="false"
+   length="11" name="V_credits" type="int"/>
+    <property column="V_renwu" generated="never" lazy="false"
+   length="11" name="V_renwu" type="int"/>
+   <property column="V_major" generated="never" lazy="false"
+   length="255" name="V_major" type="java.lang.String"/>
+   
+   
+ </class>
+</hibernate-mapping>
